@@ -1,43 +1,58 @@
 const issuesCardContainer = document.getElementById("issuesCardContainer");
 const totalIssuCount = document.getElementById("totalIssuCount");
+const allIssuesButton = document.getElementById("allIssuesBtn");
+const openIssuesButton = document.getElementById("openIssuesBtn");
+const closeIssuesButton = document.getElementById("closeIssuesBtn");
+
 const mainContainer = document.querySelector('main');
 
 // 1. Create a variable to store the fetched data globally
-let allIssues = []; 
+let allIssues = [];
 
 async function loadIssues() {
     try {
         const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
         const data = await res.json();
-        
+
         // 2. Store the data for filter it if without load fetching again
-        allIssues = data.data; 
-        
+        allIssues = data.data;
+
         displayIssues(allIssues);
 
     } catch (error) {
         console.error("Failed to load issues:", error);
     }
 }
-
 mainContainer.addEventListener('click', function (event) {
-    const filterBtn = event.target.closest('.fiterBtn'); 
+    const filterBtn = event.target.closest('.fiterBtn');
     if (!filterBtn) return;
-    
-    // 3. Implement the filtering logic
-    if (event.target.closest('#allIssuesBtn')) {
+
+    // 1. Create a list of all buttons to reset them all at once
+    const buttons = [allIssuesButton, openIssuesButton, closeIssuesButton];
+
+    buttons.forEach(btn => {
+        // Reset to "Inactive" (Ghost) style
+        btn.classList.remove("bg-[#4f00ff]", "hover:bg-[#3f00cc]", "text-white");
+        btn.classList.add("btn-ghost", "border", "border-slate-200");
+    });
+
+    // 2. Apply "Active" (Purple) style to the clicked button
+    filterBtn.classList.remove("btn-ghost", "border", "border-slate-200");
+    filterBtn.classList.add("bg-[#4f00ff]", "hover:bg-[#3f00cc]", "text-white");
+
+    // 3. Filtering Logic
+    if (filterBtn.id === 'allIssuesBtn') {
         displayIssues(allIssues);
     }
-    else if (event.target.closest('#openIssuesBtn')) {
+    else if (filterBtn.id === 'openIssuesBtn') {
         const openIssues = allIssues.filter(issue => issue.status === 'open');
         displayIssues(openIssues);
     }
-    else if (event.target.closest('#closeIssuesBtn')) {
+    else if (filterBtn.id === 'closeIssuesBtn') {
         const closedIssues = allIssues.filter(issue => issue.status === 'closed');
         displayIssues(closedIssues);
     }
 });
-
 function displayIssues(issuesList) {
     let issueCount = issuesList.length;
     issuesCardContainer.innerHTML = "";
@@ -69,8 +84,8 @@ function displayIssues(issuesList) {
         });
 
         const card = document.createElement("div");
-        card.className = issue.status === 'open' 
-            ? "card bg-white border-t-4 border-emerald-500 shadow-sm border-x border-b rounded-lg hover:shadow-md transition-shadow" 
+        card.className = issue.status === 'open'
+            ? "card bg-white border-t-4 border-emerald-500 shadow-sm border-x border-b rounded-lg hover:shadow-md transition-shadow"
             : "card bg-white border-t-4 border-violet-500 shadow-sm border-x border-b rounded-lg hover:shadow-md transition-shadow";
 
         card.innerHTML = `
@@ -80,11 +95,11 @@ function displayIssues(issuesList) {
                         <img src="${issue.status === 'open' ? './assets/Open-Status.png' : './assets/Closed- Status .png'}" alt="Status">
                     </div>
                     ${issue.priority === "high"
-                        ? `<div class="badge badge-soft badge-error">HIGH</div>`
-                        : issue.priority === "medium"
-                            ? `<div class="badge badge-soft badge-warning">MEDIUM</div>`
-                            : `<div class="badge bg-slate-100 text-slate-500 border-none font-bold py-3 px-4 rounded-full text-xs uppercase tracking-wider">Low</div>`
-                    }
+                ? `<div class="badge badge-soft badge-error">HIGH</div>`
+                : issue.priority === "medium"
+                    ? `<div class="badge badge-soft badge-warning">MEDIUM</div>`
+                    : `<div class="badge bg-slate-100 text-slate-500 border-none font-bold py-3 px-4 rounded-full text-xs uppercase tracking-wider">Low</div>`
+            }
                 </div>
                 <div>
                     <h3 class="font-bold text-slate-800 leading-tight mb-2">${issue.title}</h3>
