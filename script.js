@@ -7,6 +7,7 @@ const searchBtn = document.getElementById("searchBtn");
 
 const issueShowModal = document.getElementById("issueShowModal");
 const modalContainer = document.getElementById("modalContainer");
+const searchText = document.getElementById("searchText");
 
 const mainContainer = document.querySelector('body');
 
@@ -27,15 +28,17 @@ async function loadIssues() {
         console.error("Failed to load issues:", error);
     }
 }
-async function searchIssues(searchText) {
+
+
+async function loadSearchIssues() {
+
+    const searchKey = searchText.value;
     try {
-        const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`);
+        const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchKey}`);
         const data = await res.json();
 
-        //Store the data for filter it if without load fetching again
-        allIssues = data.data;
-
-        displayIssues(allIssues);
+        const searchIssues = data.data;
+        displayIssues(searchIssues);
 
     } catch (error) {
         console.error("Failed to load issues:", error);
@@ -47,7 +50,7 @@ mainContainer.addEventListener('click', function (event) {
     if (!filterBtn) return;
 
     // Create array of all buttons for reset
-    const buttons = [allIssuesButton, openIssuesButton, closeIssuesButton, searchBtn];
+    const buttons = [allIssuesButton, openIssuesButton, closeIssuesButton];
 
     buttons.forEach(btn => {
         // Reset to "Inactive" style for all
@@ -70,13 +73,6 @@ mainContainer.addEventListener('click', function (event) {
     else if (filterBtn.id === 'closeIssuesBtn') {
         const closedIssues = allIssues.filter(issue => issue.status === 'closed');
         displayIssues(closedIssues);
-    }
-    else if (filterBtn.id === 'searchBtn') {
-        console.log("clicked");
-        const searchText = document.getElementById("searchText");
-        const searchKey = searchText.innerText;
-        console.log(searchKey);
-        searchIssues(searchKey);
     }
 
 });
