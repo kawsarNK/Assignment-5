@@ -8,14 +8,25 @@ const searchBtn = document.getElementById("searchBtn");
 const issueShowModal = document.getElementById("issueShowModal");
 const modalContainer = document.getElementById("modalContainer");
 const searchText = document.getElementById("searchText");
+const loadingSpinner = document.getElementById("loadingSpinner");
 
 const mainContainer = document.querySelector('body');
 
 // variable to store the fetched data globally
 let allIssues = [];
 
+// Loading
+function showLoading() {
+    loadingSpinner.classList.remove("hidden");
+}
+function hideLoading() {
+    loadingSpinner.classList.add("hidden");
+}
+
 async function loadIssues() {
+    showLoading();
     try {
+
         const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
         const data = await res.json();
 
@@ -23,9 +34,11 @@ async function loadIssues() {
         allIssues = data.data;
 
         displayIssues(allIssues);
+        hideLoading();
 
     } catch (error) {
         console.error("Failed to load issues:", error);
+        hideLoading();
     }
 }
 
@@ -33,15 +46,18 @@ async function loadIssues() {
 async function loadSearchIssues() {
 
     const searchKey = searchText.value;
+    showLoading();
     try {
         const res = await fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchKey}`);
         const data = await res.json();
 
         const searchIssues = data.data;
         displayIssues(searchIssues);
+        hideLoading();
 
     } catch (error) {
         console.error("Failed to load issues:", error);
+        hideLoading();
     }
 }
 
@@ -146,7 +162,7 @@ loadIssues();
 async function openModal(issueID) {
     const modalContainer = document.getElementById("modalContainer");
 
-    // 1. Show Loading
+    // Show Loading for modal
     modalContainer.innerHTML = `
         <dialog id="issueShowModal" class="modal modal-open">
             <div class="modal-box flex flex-col items-center justify-center py-20">
