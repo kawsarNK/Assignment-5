@@ -23,10 +23,10 @@ function hideLoading() {
     loadingSpinner.classList.add("hidden");
 }
 
+// load data for show card 
 async function loadIssues() {
     showLoading();
     try {
-
         const res = await fetch("https://phi-lab-server.vercel.app/api/v1/lab/issues");
         const data = await res.json();
 
@@ -41,7 +41,7 @@ async function loadIssues() {
         hideLoading();
     }
 }
-
+// load data for search
 
 async function loadSearchIssues() {
 
@@ -61,6 +61,7 @@ async function loadSearchIssues() {
     }
 }
 
+// event deligation
 mainContainer.addEventListener('click', function (event) {
     const filterBtn = event.target.closest('.fiterBtn');
     if (!filterBtn) return;
