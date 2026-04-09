@@ -1,3 +1,66 @@
+# 🛠️ GitHub Issue Tracker
+
+A dynamic web application that allows users to fetch, filter, and track issues from GitHub repositories in real-time. This project demonstrates advanced asynchronous JavaScript techniques and seamless API integration.
+
+<img width="400" height="600" alt="image" src="https://github.com/user-attachments/assets/8d6683b9-4389-4c05-823b-c9e40800581d" />
+<img width="1779" height="866" alt="image" src="https://github.com/user-attachments/assets/6bdac21a-f557-4f12-86e9-650671876c3e" />
+
+🚀 Live Demo :
+(https://kawsarnk.github.io/Assignment-5/)
+
+## ✨ Features
+- **Real-time Data:** Fetches live data directly from the GitHub REST API.
+- **Asynchronous Search:** Smooth searching experience using `fetch` and `async/await`.
+- **Dynamic Filtering:** Filter issues based on status (Open/Closed) or labels.
+- **Responsive Design:** Optimized for both desktop and mobile viewing.
+- **Error Handling:** Graceful handling of API rate limits or invalid repository searches.
+
+## 💻 Tech Stack
+- **Frontend:** HTML5, CSS3, Tailwind CSS
+- **Logic:** JavaScript (ES6+), Asynchronous Programming (Promises, Async/Await)
+- **API:** GitHub REST API
+- **Styling:** DaisyUI (Optional, if you used it)
+
+## 🛠️ Installation & Setup
+1. Clone the repository:
+   ```bash
+   git clone [https://github.com/kawsarnk/github-issue-tracker.git](https://github.com/kawsarnk/github-issue-tracker.git)
+
+2. Navigate to the project folder:
+
+```bash
+cd github-issue-tracker
+```
+Open index.html in your browser or use Live Server in VS Code.
+
+
+## 📖 What I Learned 
+During this project (Assignment 5), I focused on:
+
+Managing complex API states (loading, success, error).
+
+Implementing Debouncing to limit API calls during search.
+
+DOM Manipulation to render complex JSON objects into clean UI components.
+
+Securely handling environment variables for API tokens (if applicable).
+
+🤝 Contributing
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+
+Built with ❤️ by Kawsar Hamid
+
+
+
+
+
+
+
+
+
+
+
+
 1️⃣ What is the difference between var, let, and const?
 **Ans:** These keywords are used to declare variables.
 var: The traditional way to declare variables. It is available throughout the function it’s defined in. It can be redeclared and reassigned.
